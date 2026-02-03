@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/250.webp" type="Texture" id=1]
 [ext_resource path="res://assets/Stacked pixel.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/Peaberry-Font-v2.0/Peaberry-Font-v2.0/Peaberry Font Family/Peaberry Doublespace/Peaberry-Doublespace.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/Buttons/Yellow_Buttons_Pixel.png" type="Texture" id=4]
+[ext_resource path="res://scripts/main.gd" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -12,7 +14,15 @@ font_data = ExtResource( 3 )
 size = 90
 font_data = ExtResource( 2 )
 
-[node name="main" type="Node"]
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 16, 16 )
+
+[node name="main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
 
 [node name="TextureButton" type="TextureButton" parent="."]
 anchor_left = 0.5
@@ -52,17 +62,23 @@ margin_bottom = 75.0
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
-[node name="MenuButton" type="MenuButton" parent="."]
-margin_right = 12.0
-margin_bottom = 20.0
+[node name="click" type="AudioStreamPlayer" parent="."]
 
-[node name="FileDialog" type="FileDialog" parent="."]
-margin_left = 387.0
-margin_top = 175.0
-margin_right = 753.0
-margin_bottom = 305.0
-rect_min_size = Vector2( 150, 52.5 )
-show_hidden_files = true
+[node name="bgmusic" type="AudioStreamPlayer" parent="."]
+autoplay = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="settings" type="Button" parent="."]
+margin_right = 72.0
+margin_bottom = 68.0
+icon = SubResource( 3 )
+flat = true
+expand_icon = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="settings" to="." method="_on_settings_pressed"]
