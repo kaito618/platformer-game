@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/250.webp" type="Texture" id=1]
+[ext_resource path="res://assets/Stacked pixel.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/Peaberry-Font-v2.0/Peaberry-Font-v2.0/Peaberry Font Family/Peaberry Doublespace/Peaberry-Doublespace.otf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 90
+font_data = ExtResource( 2 )
+
+[node name="main" type="Node"]
+
+[node name="TextureButton" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -125.0
+margin_right = 125.0
+margin_bottom = 125.0
+rect_pivot_offset = Vector2( 125, 125 )
+texture_normal = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="score" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 80.0
+custom_fonts/font = SubResource( 1 )
+text = "0 Cookies"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="highscore" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -85.0
+margin_top = 1.0
+margin_right = -40.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 2
+
+[node name="MenuButton" type="MenuButton" parent="."]
+margin_right = 12.0
+margin_bottom = 20.0
+
+[node name="FileDialog" type="FileDialog" parent="."]
+margin_left = 387.0
+margin_top = 175.0
+margin_right = 753.0
+margin_bottom = 305.0
+rect_min_size = Vector2( 150, 52.5 )
+show_hidden_files = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
