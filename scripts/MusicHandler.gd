@@ -5,12 +5,12 @@ onready var player = AudioStreamPlayer.new()
 # Dictionary to hold your songs
 var playlists = {
 	"Sad": [
-		load("res://assets/sad1.mp3"), 
-		load("res://assets/sad2.mp3")
+		load("res://assets/songs/sad1.mp3"), 
+		load("res://assets/songs/sad2.mp3")
 	],
 	"Minecraft": [
-		load("res://assets/mc1.mp3"), 
-		load("res://assets/mc2.mp3")
+		load("res://assets/songs/M1.mp3"), 
+		load("res://assets/songs/M2.mp3")
 	]
 }
 

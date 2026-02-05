@@ -83,10 +83,12 @@ __meta__ = {
 
 [node name="click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+volume_db = -1.198
 
 [node name="settings" type="Button" parent="."]
 margin_right = 72.0
 margin_bottom = 68.0
+action_mode = 0
 icon = SubResource( 3 )
 flat = true
 expand_icon = true

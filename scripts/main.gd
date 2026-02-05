@@ -4,20 +4,22 @@ var save_path = "user://highscore.save"
 
 func _ready():
 	load_high_score()
-	# Apply current skin to all states
 	var tex = load(Global.current_skin_path)
 	if tex:
 		$TextureButton.texture_normal = tex
 		$TextureButton.texture_pressed = tex
 		$TextureButton.texture_hover = tex
 	
-	# Initial text setup
 	$score.text = str(Global.total_cookies)
 	$highscore.text = "Best: " + str(Global.high_score)
 	
 	$TextureButton.rect_pivot_offset = $TextureButton.rect_size / 2
 
 func _on_TextureButton_pressed():
+	# Added: Starts music on the first click
+	if not MusicHandler.player.playing:
+		MusicHandler.play_current_selection()
+
 	Global.total_cookies += 1
 	$score.text = str(Global.total_cookies)
 	
