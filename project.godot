@@ -12,12 +12,16 @@ config_version=4
 
 config/name="cool game"
 run/main_scene="res://scenes/main.tscn"
-config/icon="res://icon.png"
+
+[autoload]
+
+Global="*res://scripts/Global.gd"
+MusicHandler="*res://scripts/MusicHandler.gd"
 
 [display]
 
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/stretch/aspect="expand"
 
 [gui]
 

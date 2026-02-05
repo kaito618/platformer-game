@@ -1,52 +1,75 @@
 extends Control
 
-var score = 0
-var high_score = 0
 var save_path = "user://highscore.save"
 
-onready var score_label = $score
-onready var highscore_label = $highscore
-onready var cookie_btn = $TextureButton
-
 func _ready():
-	load_high_score() # This must run to get the old score from the disk
-	cookie_btn.rect_pivot_offset = cookie_btn.rect_size / 2 # Centers the shake
+	load_high_score()
+	# Apply current skin to all states
+	var tex = load(Global.current_skin_path)
+	if tex:
+		$TextureButton.texture_normal = tex
+		$TextureButton.texture_pressed = tex
+		$TextureButton.texture_hover = tex
+	
+	# Initial text setup
+	$score.text = str(Global.total_cookies)
+	$highscore.text = "Best: " + str(Global.high_score)
+	
+	$TextureButton.rect_pivot_offset = $TextureButton.rect_size / 2
 
 func _on_TextureButton_pressed():
-	score += 1
-	score_label.text = str(score)
+	Global.total_cookies += 1
+	$score.text = str(Global.total_cookies)
+	
+	$click.stop()
 	$click.play()
 	
-	# Shake Animation
-	var tween = create_tween()
-	cookie_btn.rect_rotation = 8
-	tween.tween_property(cookie_btn, "rect_rotation", 0, 0.2).set_trans(Tween.TRANS_ELASTIC)
-	
-	# High Score Logic
-	if score > high_score:
-		high_score = score
-		highscore_label.text = "Best: " + str(high_score)
-		save_high_score() # We save every time the record is broken
+	$TextureButton.rect_pivot_offset = $TextureButton.rect_size / 2
+	$TextureButton.rect_scale = Vector2(1, 1)
 
-func _on_settings_pressed():
-	get_tree().change_scene("res://scenes/settings.tscn")
+	if has_node("Tween"):
+		$Tween.interpolate_property($TextureButton, "rect_scale",
+			Vector2(0.9, 0.9), Vector2(1, 1), 0.1,
+			Tween.TRANS_QUAD, Tween.EASE_OUT)
+		$Tween.start()
+	
+	if Global.total_cookies > Global.high_score:
+		Global.high_score = Global.total_cookies
+		$highscore.text = "Best: " + str(Global.high_score)
+		save_high_score()
+	
+	_check_milestones()
+
+func _check_milestones():
+	var new_skin = "res://assets/250.webp" 
+	
+	if Global.total_cookies >= 100000:
+		new_skin = Global.skin_100000
+	elif Global.total_cookies >= 1000:
+		new_skin = Global.skin_1000
+	elif Global.total_cookies >= 100:
+		new_skin = Global.skin_100
+		
+	if Global.current_skin_path != new_skin:
+		Global.current_skin_path = new_skin
+		var tex = load(new_skin)
+		if tex:
+			$TextureButton.texture_normal = tex
+			$TextureButton.texture_pressed = tex
+			$TextureButton.texture_hover = tex
 
 func save_high_score():
 	var file = File.new()
-	var err = file.open(save_path, File.WRITE)
-	if err == OK:
-		file.store_var(high_score)
+	if file.open(save_path, File.WRITE) == OK:
+		file.store_var(Global.high_score)
 		file.close()
-		print("High score saved successfully: ", high_score) # Look for this in the Output tab!
-	else:
-		print("Failed to save file. Error code: ", err)
 
 func load_high_score():
 	var file = File.new()
 	if file.file_exists(save_path):
-		var err = file.open(save_path, File.READ)
-		if err == OK:
-			high_score = file.get_var()
-			file.close()
-			highscore_label.text = "Best: " + str(high_score)
-			print("High score loaded: ", high_score)
+		file.open(save_path, File.READ)
+		Global.high_score = file.get_var()
+		file.close()
+
+func _on_settings_pressed():
+	get_tree().change_scene("res://scenes/settings.tscn")
